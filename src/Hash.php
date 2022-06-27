@@ -15,7 +15,6 @@ class Hash extends AbstractFilter
         'algorithm' => null,
     ];
 
-
     /**
      * @param Traversable<string,string>|array{algorithm: string|null}|null $options
      */
@@ -32,7 +31,7 @@ class Hash extends AbstractFilter
      */
     public function filter($value): mixed
     {
-        if (!is_scalar($value)) {
+        if (!is_scalar($value) || '' === $value) {
             return $value;
         }
 
@@ -50,7 +49,7 @@ class Hash extends AbstractFilter
 
     public function getAlgorithm(): string
     {
-        if (empty($this->options['algorithm'])) {
+        if (null === $this->options['algorithm']) {
             throw new Exception\InvalidArgumentException(
                 sprintf(
                     '%s expects a "algorithm" option; none given',

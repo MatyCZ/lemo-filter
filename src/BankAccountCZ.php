@@ -10,7 +10,7 @@ use function ltrim;
 use function preg_match;
 use function str_replace;
 
-class BankAccount extends AbstractFilter
+class BankAccountCZ extends AbstractFilter
 {
     /**
      * Returns $value as CZ bank account number
@@ -20,7 +20,7 @@ class BankAccount extends AbstractFilter
      */
     public function filter($value): mixed
     {
-        if (!is_scalar($value)) {
+        if (!is_scalar($value) || '' === $value) {
             return $value;
         }
 

@@ -34,13 +34,17 @@ class StrPad extends AbstractFilter
      */
     public function filter($value): mixed
     {
-        if (!is_scalar($value)) {
+        if (!is_scalar($value) || '' === $value) {
             return $value;
         }
 
         $value = (string) $value;
 
-        return str_pad($value, $this->getPadLength(), $this->getPadString(), $this->getPadType());
+        if (null !== $this->getPadType()) {
+            return str_pad($value, $this->getPadLength(), $this->getPadString(), $this->getPadType());
+        } else {
+            return str_pad($value, $this->getPadLength(), $this->getPadString());
+        }
     }
 
     public function setPadLength(?int $padLength): self
@@ -74,7 +78,7 @@ class StrPad extends AbstractFilter
 
     public function getPadString(): string
     {
-        if (empty($this->options['pad_string'])) {
+        if (null === $this->options['pad_string'] || '' === $this->options['pad_string']) {
             throw new Exception\InvalidArgumentException(
                 sprintf(
                     '%s expects a "pad_string" option; none given',
@@ -93,17 +97,8 @@ class StrPad extends AbstractFilter
         return $this;
     }
 
-    public function getPadType(): int
+    public function getPadType(): ?int
     {
-        if (empty($this->options['pad_type'])) {
-            throw new Exception\InvalidArgumentException(
-                sprintf(
-                    '%s expects a "pad_type" option; none given',
-                    self::class
-                )
-            );
-        }
-
         return $this->options['pad_type'];
     }
 }

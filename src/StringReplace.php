@@ -14,7 +14,7 @@ class StringReplace extends AbstractFilter
 {
     /** @var array{replace: array<string>|string|null, search: array<string>|string|null} */
     protected $options = [
-        'replace' => '',
+        'replace' => null,
         'search' => null,
     ];
 
@@ -34,7 +34,7 @@ class StringReplace extends AbstractFilter
      */
     public function filter($value): mixed
     {
-        if (!is_scalar($value)) {
+        if (!is_scalar($value) || '' === $value) {
             return $value;
         }
 
@@ -69,7 +69,7 @@ class StringReplace extends AbstractFilter
      */
     public function getSearch(): array|string
     {
-        if (empty($this->options['search'])) {
+        if (null === $this->options['search']) {
             throw new Exception\InvalidArgumentException(
                 sprintf(
                     '%s expects a "search" option; none given',
@@ -103,10 +103,10 @@ class StringReplace extends AbstractFilter
      */
     public function getReplace(): array|string
     {
-        if (empty($this->options['replace'])) {
+        if (null === $this->options['replace']) {
             throw new Exception\InvalidArgumentException(
                 sprintf(
-                    '%s expects a "search" option; none given',
+                    '%s expects a "replace" option; none given',
                     self::class
                 )
             );

@@ -11,7 +11,7 @@ class HtmlEntitiesDecode extends AbstractFilter
 {
     public function filter($value): mixed
     {
-        if (!is_scalar($value)) {
+        if (!is_scalar($value) || '' === $value) {
             return $value;
         }
 

@@ -38,7 +38,7 @@ class Sanitize extends AbstractFilter
      */
     public function filter($value): mixed
     {
-        if (!is_scalar($value)) {
+        if (!is_scalar($value) || '' === $value) {
             return $value;
         }
 
@@ -115,12 +115,14 @@ class Sanitize extends AbstractFilter
                 $this->options['encoding'] = mb_internal_encoding();
             }
 
-            throw new Exception\InvalidArgumentException(
-                sprintf(
-                    '%s expects a "encoding" option; none given',
-                    self::class
-                )
-            );
+            if (empty($this->options['encoding'])) {
+                throw new Exception\InvalidArgumentException(
+                    sprintf(
+                        '%s expects a "encoding" option; none given',
+                        self::class
+                    )
+                );
+            }
         }
 
         return $this->options['encoding'];

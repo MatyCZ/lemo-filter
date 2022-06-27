@@ -9,7 +9,7 @@ use function is_scalar;
 use function preg_match;
 use function sprintf;
 
-class PhoneCallingCode extends AbstractFilter
+class PhoneCallingCodeCZ extends AbstractFilter
 {
     /** @var array{callingCode: string} */
     protected $options = [
@@ -34,7 +34,7 @@ class PhoneCallingCode extends AbstractFilter
      */
     public function filter($value): mixed
     {
-        if (!is_scalar($value)) {
+        if (!is_scalar($value) || '' === $value) {
             return $value;
         }
 

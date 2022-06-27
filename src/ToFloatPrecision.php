@@ -13,11 +13,11 @@ use function preg_replace;
 use function round;
 use function sprintf;
 
-class ToFloat extends AbstractFilter
+class ToFloatPrecision extends AbstractFilter
 {
-    /** @var array{precision: int} */
+    /** @var array{precision: int|null} */
     protected $options = [
-        'precision' => 4,
+        'precision' => null,
     ];
 
     /**
@@ -36,7 +36,7 @@ class ToFloat extends AbstractFilter
      */
     public function filter($value): mixed
     {
-        if (!is_scalar($value)) {
+        if (!is_scalar($value) || '' === $value) {
             return $value;
         }
 
@@ -65,7 +65,7 @@ class ToFloat extends AbstractFilter
 
     public function getPrecision(): int
     {
-        if (empty($this->options['precision'])) {
+        if (null === $this->options['precision']) {
             throw new Exception\InvalidArgumentException(
                 sprintf(
                     '%s expects a "precision" option; none given',

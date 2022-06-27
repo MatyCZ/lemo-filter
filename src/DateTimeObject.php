@@ -24,7 +24,7 @@ class DateTimeObject extends AbstractFilter
             return $value;
         }
 
-        if (!is_scalar($value)) {
+        if (!is_scalar($value) || '' === $value) {
             return $value;
         }
 
