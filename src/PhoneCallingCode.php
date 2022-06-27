@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Lemo\Filter;
 
 use Laminas\Filter\AbstractFilter;
@@ -17,6 +16,9 @@ class PhoneCallingCode extends AbstractFilter
         'callingCode' => '420',
     ];
 
+    /**
+     * @param Traversable<string,string>|array{callingCode: string}|null $options
+     */
     public function __construct(Traversable|array|null $options = null)
     {
         if ($options !== null) {
@@ -71,7 +73,6 @@ class PhoneCallingCode extends AbstractFilter
         if (empty($this->options['callingCode'])) {
             throw new Exception\InvalidArgumentException(
                 sprintf(
-
                     '%s expects a "callingCode" option; none given',
                     self::class
                 )

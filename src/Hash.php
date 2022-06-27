@@ -6,6 +6,7 @@ use Laminas\Filter\AbstractFilter;
 use Traversable;
 
 use function hash;
+use function sprintf;
 
 class Hash extends AbstractFilter
 {
@@ -14,6 +15,10 @@ class Hash extends AbstractFilter
         'algorithm' => null,
     ];
 
+
+    /**
+     * @param Traversable<string,string>|array{algorithm: string|null}|null $options
+     */
     public function __construct(Traversable|array|null $options = null)
     {
         if ($options !== null) {
@@ -33,9 +38,7 @@ class Hash extends AbstractFilter
 
         $value = (string) $value;
 
-        $value = hash($this->getAlgorithm(), $value);
-
-        return false === $value ? null : $value;
+        return hash($this->getAlgorithm(), $value);
     }
 
     public function setAlgorithm(string $algorithm): self
@@ -50,7 +53,6 @@ class Hash extends AbstractFilter
         if (empty($this->options['algorithm'])) {
             throw new Exception\InvalidArgumentException(
                 sprintf(
-
                     '%s expects a "algorithm" option; none given',
                     self::class
                 )

@@ -22,6 +22,9 @@ class Sanitize extends AbstractFilter
         'separator' => '-',
     ];
 
+    /**
+     * @param Traversable<string,bool|string|null>|array{encoding: string|null, lowercase: bool|null, separator: string|null}|null $options
+     */
     public function __construct(Traversable|array|null $options = null)
     {
         if ($options !== null) {
@@ -114,7 +117,6 @@ class Sanitize extends AbstractFilter
 
             throw new Exception\InvalidArgumentException(
                 sprintf(
-
                     '%s expects a "encoding" option; none given',
                     self::class
                 )
@@ -136,7 +138,6 @@ class Sanitize extends AbstractFilter
         if (empty($this->options['lowercase'])) {
             throw new Exception\InvalidArgumentException(
                 sprintf(
-
                     '%s expects a "lowercase" option; none given',
                     self::class
                 )
@@ -158,7 +159,6 @@ class Sanitize extends AbstractFilter
         if (empty($this->options['separator'])) {
             throw new Exception\InvalidArgumentException(
                 sprintf(
-
                     '%s expects a "separator" option; none given',
                     self::class
                 )

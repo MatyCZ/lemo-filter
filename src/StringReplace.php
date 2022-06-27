@@ -7,16 +7,20 @@ use Laminas\Filter\Exception;
 use Traversable;
 
 use function is_scalar;
+use function sprintf;
 use function str_replace;
 
 class StringReplace extends AbstractFilter
 {
-    /** @var array{replace: array|string|null, search: array|string|null} */
+    /** @var array{replace: array<string>|string|null, search: array<string>|string|null} */
     protected $options = [
-        'search' => null,
         'replace' => '',
+        'search' => null,
     ];
 
+    /**
+     * @param Traversable<string, array<string>|string|null>|array{replace: array<string>|string|null, search: array<string>|string|null}|null $options
+     */
     public function __construct(Traversable|array|null $options = null)
     {
         if ($options !== null) {
@@ -48,6 +52,7 @@ class StringReplace extends AbstractFilter
      *
      * @see str_replace()
      *
+     * @param array<string>|string $search
      * @throws Exception\InvalidArgumentException
      */
     public function setSearch(array|string $search): self
@@ -59,13 +64,14 @@ class StringReplace extends AbstractFilter
 
     /**
      * Get currently set value being searched for
+     *
+     * @return array<string>|string
      */
     public function getSearch(): array|string
     {
         if (empty($this->options['search'])) {
             throw new Exception\InvalidArgumentException(
                 sprintf(
-
                     '%s expects a "search" option; none given',
                     self::class
                 )
@@ -80,6 +86,7 @@ class StringReplace extends AbstractFilter
      *
      * @see str_replace()
      *
+     * @param array<string>|string $replace
      * @throws Exception\InvalidArgumentException
      */
     public function setReplace(array|string $replace): self
@@ -91,13 +98,14 @@ class StringReplace extends AbstractFilter
 
     /**
      * Get currently set replace value
+     *
+     * @return array<string>|string
      */
     public function getReplace(): array|string
     {
         if (empty($this->options['replace'])) {
             throw new Exception\InvalidArgumentException(
                 sprintf(
-
                     '%s expects a "search" option; none given',
                     self::class
                 )

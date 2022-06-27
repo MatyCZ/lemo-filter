@@ -1,12 +1,17 @@
 <?php
 
-namespace LemoBase\Filter;
+namespace Lemo\Filter;
 
 use Laminas\Filter\AbstractFilter;
 use Traversable;
 
+use function is_scalar;
+use function sprintf;
+use function str_pad;
+
 class StrPad extends AbstractFilter
 {
+    /** @var array{pad_length: int|null, pad_string: string|null, pad_type: int|null} */
     protected $options = [
         'pad_length' => null,
         'pad_string' => null,
@@ -14,90 +19,91 @@ class StrPad extends AbstractFilter
     ];
 
     /**
-     * Constructor
-     *
-     * Supported options are
-     *     'pad_length' => If the value of pad_length is negative, less than, or equal to the length of the input string, no padding takes place, and input will be returned.
-     *     'pad_string' => The pad_string may be truncated if the required number of padding characters can't be evenly divided by the pad_string's length.
-     *     'pad_type'   => Optional argument pad_type can be STR_PAD_RIGHT, STR_PAD_LEFT, or STR_PAD_BOTH. If pad_type is not specified it is assumed to be STR_PAD_RIGHT.
-     *
-     * @param  array|Traversable|string|null $options
+     * @param Traversable<string,int|string|null>|array{pad_length: int|null, pad_string: string|null, pad_type: int|null}|null $options
      */
-    public function __construct($options = null)
+    public function __construct(Traversable|array|null $options = null)
     {
-        if ($options instanceof Traversable) {
-            $options = iterator_to_array($options);
-        }
-
-        if (null !== $options) {
+        if ($options !== null) {
             $this->setOptions($options);
         }
     }
 
     /**
-     * @param  int $padLength
-     * @return $this
+     * @param  mixed $value
+     * @return mixed
      */
-    public function setPadLength($padLength)
+    public function filter($value): mixed
     {
-        $this->options['pad_length'] = $padLength;
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getPadLength()
-    {
-        return $this->options['pad_length'];
-    }
-
-    /**
-     * @param  string $padString
-     * @return $this
-     */
-    public function setPadString($padString)
-    {
-        $this->options['pad_string'] = $padString;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getPadString()
-    {
-        return $this->options['pad_string'];
-    }
-
-    /**
-     * @param  string $padType
-     * @return $this
-     */
-    public function setPadType($padType)
-    {
-        $this->options['pad_type'] = $padType;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getPadType()
-    {
-        return $this->options['pad_type'];
-    }
-
-    /**
-     * @param  string $value
-     * @return string
-     */
-    public function filter($value)
-    {
-        if (empty($value)) {
+        if (!is_scalar($value)) {
             return $value;
         }
 
-        return str_pad($value, $this->options['pad_length'], $this->options['pad_string'], $this->options['pad_type']);
+        $value = (string) $value;
+
+        return str_pad($value, $this->getPadLength(), $this->getPadString(), $this->getPadType());
+    }
+
+    public function setPadLength(?int $padLength): self
+    {
+        $this->options['pad_length'] = $padLength;
+
+        return $this;
+    }
+
+    public function getPadLength(): int
+    {
+        if (empty($this->options['pad_length'])) {
+            throw new Exception\InvalidArgumentException(
+                sprintf(
+
+                    '%s expects a "pad_length" option; none given',
+                    self::class
+                )
+            );
+        }
+
+        return $this->options['pad_length'];
+    }
+
+    public function setPadString(?string $padString): self
+    {
+        $this->options['pad_string'] = $padString;
+
+        return $this;
+    }
+
+    public function getPadString(): string
+    {
+        if (empty($this->options['pad_string'])) {
+            throw new Exception\InvalidArgumentException(
+                sprintf(
+                    '%s expects a "pad_string" option; none given',
+                    self::class
+                )
+            );
+        }
+
+        return $this->options['pad_string'];
+    }
+
+    public function setPadType(?int $padType): self
+    {
+        $this->options['pad_type'] = $padType;
+
+        return $this;
+    }
+
+    public function getPadType(): int
+    {
+        if (empty($this->options['pad_type'])) {
+            throw new Exception\InvalidArgumentException(
+                sprintf(
+                    '%s expects a "pad_type" option; none given',
+                    self::class
+                )
+            );
+        }
+
+        return $this->options['pad_type'];
     }
 }

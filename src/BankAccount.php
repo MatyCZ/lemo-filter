@@ -48,7 +48,7 @@ class BankAccount extends AbstractFilter
             $value = '';
         } else {
             $value = $accountNo . '/' . $bankCode;
-            if(!empty($accountPrefix)) {
+            if (!empty($accountPrefix)) {
                 $value = $accountPrefix . '-' . $value;
             }
         }
