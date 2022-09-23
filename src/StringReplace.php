@@ -19,7 +19,7 @@ class StringReplace extends AbstractFilter
     ];
 
     /**
-     * @param Traversable<string, array<string>|string|null>|array{replace: array<string>|string|null, search: array<string>|string|null}|null $options
+     * @param Traversable<string, array<string>|string|null>|array{replace?: array<string>|string|null, search?: array<string>|string|null}|null $options
      */
     public function __construct(Traversable|array|null $options = null)
     {

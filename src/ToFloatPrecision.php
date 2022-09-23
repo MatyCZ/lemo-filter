@@ -21,7 +21,7 @@ class ToFloatPrecision extends AbstractFilter
     ];
 
     /**
-     * @param Traversable<string,int>|array{precision: int}|null $options
+     * @param Traversable<string,int>|array{precision?: int}|null $options
      */
     public function __construct(Traversable|array|null $options = null)
     {

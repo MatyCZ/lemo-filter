@@ -23,7 +23,7 @@ class Sanitize extends AbstractFilter
     ];
 
     /**
-     * @param Traversable<string,bool|string|null>|array{encoding: string|null, lowercase: bool|null, separator: string|null}|null $options
+     * @param Traversable<string,bool|string|null>|array{encoding?: string|null, lowercase?: bool|null, separator?: string|null}|null $options
      */
     public function __construct(Traversable|array|null $options = null)
     {

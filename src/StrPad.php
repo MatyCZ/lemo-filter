@@ -19,7 +19,7 @@ class StrPad extends AbstractFilter
     ];
 
     /**
-     * @param Traversable<string,int|string|null>|array{pad_length: int|null, pad_string: string|null, pad_type: int|null}|null $options
+     * @param Traversable<string,int|string|null>|array{pad_length?: int|null, pad_string?: string|null, pad_type?: int|null}|null $options
      */
     public function __construct(Traversable|array|null $options = null)
     {

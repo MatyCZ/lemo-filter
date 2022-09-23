@@ -16,7 +16,7 @@ class Hash extends AbstractFilter
     ];
 
     /**
-     * @param Traversable<string,string>|array{algorithm: string|null}|null $options
+     * @param Traversable<string,string>|array{algorithm?: string|null}|null $options
      */
     public function __construct(Traversable|array|null $options = null)
     {

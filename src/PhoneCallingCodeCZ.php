@@ -17,7 +17,7 @@ class PhoneCallingCodeCZ extends AbstractFilter
     ];
 
     /**
-     * @param Traversable<string,string>|array{callingCode: string}|null $options
+     * @param Traversable<string,string>|array{callingCode?: string}|null $options
      */
     public function __construct(Traversable|array|null $options = null)
     {
